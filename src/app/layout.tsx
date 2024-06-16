@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import StyledComponentsRegistry from "./registry";
-import { GlobalStyle } from "@/styles/globalStyle";
 import { theme } from "@/styles/theme";
+import { GlobalStyle } from "@/styles/GlobalStyle";
 
 const fontFamily = Inter({
   weight: ['400', '500', '600', '700'],

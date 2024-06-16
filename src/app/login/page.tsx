@@ -13,16 +13,16 @@ export default function Login(){
     const [email, setEmail] = useState('');
     const [erro, setErro] = useState<any>();
     async function SubmitLogin(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault();
         try{
+            e.preventDefault();
             const response = await axios.post('http://localhost:3000/api/login', {
                 email: email,
                 senha: password,
             });
 
-            const data = await response.data;
-            setCookie('token', data.token);
-            router.push('/dashboard')
+            const data = response.data;
+            setCookie('token', data.token, { path: '/' });
+            router.push('/dashboard');
         } catch (error){
             setErro(error);
         }
