@@ -22,7 +22,7 @@ export default function Login(){
 
             const data = response.data;
             setCookie('token', data.token, { path: '/' });
-            router.push('/dashboard');
+            //router.push('/dashboard');
         } catch (error){
             setErro(error);
         }
