@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getCookie } from 'cookies-next';
 import { readToken } from '@/service/token';
 
-export function middleware(request: NextRequest) {
-    const token = request.cookies.get('token');
+export async function middleware(request: NextRequest) {
+    const token = request.cookies.get('token')?.value;
 
     if (!token) {
         console.log('Redirecionando para login: token não encontrado');
@@ -12,8 +11,7 @@ export function middleware(request: NextRequest) {
     }
 
     try {
-        // Verifique se o token é válido
-        readToken(token as any);
+        await readToken(token);
     } catch (error) {
         console.log('Erro ao verificar o token:', error);
         return NextResponse.redirect(new URL('/login', request.url));

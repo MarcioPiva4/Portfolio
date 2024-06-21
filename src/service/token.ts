@@ -1,15 +1,19 @@
-import jwt from "jsonwebtoken";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { SignJWT, jwtVerify } from 'jose';
 
-const secret = process.env.JWT_SECRET!;
+const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
-export function createToken(user: any) {
-  return jwt.sign({ email: user.email, nome: user.nome }, secret);
+export async function createToken(user: any) {
+  const token = await new SignJWT({ email: user.email, nome: user.nome })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .sign(secret);
+  return token;
 }
 
-export function readToken(token: string) {
+export async function readToken(token: string) {
   try {
-    return jwt.verify(token, secret);
+    const { payload } = await jwtVerify(token, secret);
+    return payload;
   } catch (error) {
     throw new Error("Invalid token");
   }
